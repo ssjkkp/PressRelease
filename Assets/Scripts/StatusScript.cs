@@ -7,35 +7,50 @@ using TMPro;
 public class StatusScript : MonoBehaviour
 {
     public static bool press;
-    public TextMeshProUGUI statusText;
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI StatusText;
+    public TextMeshProUGUI ScoreText;
+    public Image ScoreImage;
+    private int ScoreImageTop;
+
+    private void Start()
+    {
+        press = true;
+        ScoreImageTop = 0;
+        StartCoroutine("PressReleaseCoroutine");
+    }
 
     private void Update()
     {
 
-        scoreText.SetText(ButtonScript.score.ToString());
-    }
-    private void Start()
-    {
-        press = true;
-
-        StartCoroutine("PressReleaseCoroutine");
-    }
-
-    IEnumerator PressReleaseCoroutine()
-    {
-    for (var i = 0; i < 20; i++)
-    {
-        press = !press;
-        if (press)
+        ScoreText.SetText(ButtonScript.score.ToString());
+        if (ScoreImageTop + ButtonScript.score < 1280)
         {
-            statusText.SetText("on");
+            ScoreImage.rectTransform.sizeDelta = new Vector2(0, ScoreImageTop + ButtonScript.score);
         }
         else
         {
-            statusText.SetText("off");
+            Debug.Log("Scoreimage<0: "+ ScoreImageTop);
         }
-        yield return new WaitForSeconds(3);
+    }
+
+
+    IEnumerator PressReleaseCoroutine()
+    {
+    for (var i = 0; i < 200; i++)
+    {
+
+        press = !press;
+        if (press)
+        {
+            StatusText.SetText("PRESS");
+        }
+        else
+        {
+            StatusText.SetText("RELEASE");
+        }
+            System.Random rnd = new System.Random();
+            int waitTime = rnd.Next(0, 3);
+            yield return new WaitForSeconds(waitTime);
         }
     }
 }

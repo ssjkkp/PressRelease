@@ -11,14 +11,10 @@ public class ButtonScript : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void Update()
     {
-        if (buttonPressed && StatusScript.press)
-        {
-            score++;
-        }
-        if(buttonPressed && !StatusScript.press)
-        {
-            score--;
-        }
+            if (buttonPressed && !StatusScript.press || !buttonPressed && StatusScript.press)
+            {
+                score++;
+            }
     }
     public void OnPointerDown(PointerEventData eventData)
     {
